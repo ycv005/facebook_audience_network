@@ -6,10 +6,13 @@
 /// Currently only Android platform is supported.
 library facebook_audience_network;
 
+import 'dart:io';
+
 import 'package:flutter/services.dart';
 
 import 'ad/ad_interstitial.dart';
 import 'ad/ad_rewarded.dart';
+import 'ad/ad_rewarded_interstitial.dart';
 import 'constants.dart';
 
 export 'ad/ad_banner.dart';
@@ -30,8 +33,10 @@ class FacebookAudienceNetwork {
   ///
   /// [testingId] can be obtained by running the app once without the testingId.
   /// Check the log to obtain the [testingId] for your device.
-  static Future<bool?> init(
-      {String? testingId, bool iOSAdvertiserTrackingEnabled = false}) async {
+  static Future<bool?> init({
+    String? testingId,
+    bool iOSAdvertiserTrackingEnabled = false,
+  }) async {
     Map<String, String?> initValues = {
       "testingId": testingId,
       "iOSAdvertiserTrackingEnabled": iOSAdvertiserTrackingEnabled.toString(),
@@ -141,5 +146,25 @@ class FacebookAudienceNetwork {
   /// Removes the rewarded video Ad.
   static Future<bool?> destroyRewardedVideoAd() async {
     return await FacebookRewardedVideoAd.destroyRewardedVideoAd();
+  }
+
+  static Future<bool?> loadRewardedInterstitialAd({
+    String placementId = "YOUR_PLACEMENT_ID",
+    Function(RewardedInterstitialAdResult, dynamic)? listener,
+  }) async {
+    return await FacebookRewardedInterstitialAd.loadRewardedInterstitialAd(
+      placementId: placementId,
+      listener: listener,
+    );
+  }
+
+  static Future<bool?> showRewardedInterstitialAd({int delay = 0}) async {
+    return await FacebookRewardedInterstitialAd.showRewardedInterstitialAd(
+      delay: delay,
+    );
+  }
+
+  static Future<bool?> destroyRewardedInterstitialAd() async {
+    return await FacebookRewardedInterstitialAd.destroyRewardedInterstitialAd();
   }
 }
