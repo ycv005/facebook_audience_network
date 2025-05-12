@@ -155,12 +155,12 @@ class FacebookRewardedInterstitialAdPlugin implements MethodChannel.MethodCallHa
     }
 
     @Override
-    public void onRewardedInterstitialAdClosed() {
+    public void onRewardedInterstitialClosed() {
         channel.invokeMethod(FacebookConstants.REWARDED_INTERSTITIAL_CLOSED_METHOD, true);
     }
 
     @Override
-    public void onRewardedInterstitialAdCompleted() {
+    public void onRewardedInterstitialCompleted() {
         channel.invokeMethod(FacebookConstants.REWARDED_INTERSTITIAL_COMPLETE_METHOD, true);
     }
 }
