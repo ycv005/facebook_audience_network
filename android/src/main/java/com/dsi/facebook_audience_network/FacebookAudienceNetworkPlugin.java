@@ -20,7 +20,7 @@ import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding;
  */
 public class FacebookAudienceNetworkPlugin implements FlutterPlugin, MethodCallHandler, ActivityAware {
 
-    private MethodChannel channel, interstitialAdChannel, rewardedAdChannel;
+    private MethodChannel channel, interstitialAdChannel, rewardedAdChannel, rewardedInterstitialAdChannel;
     private Activity _activity;
     private Context _context;
 
@@ -43,6 +43,15 @@ public class FacebookAudienceNetworkPlugin implements FlutterPlugin, MethodCallH
         rewardedAdChannel
                 .setMethodCallHandler(new FacebookRewardedVideoAdPlugin(_context,
                         rewardedAdChannel));
+
+        // Rewarded Interstitial Ad channel
+        rewardedInterstitialAdChannel = new MethodChannel(flutterPluginBinding.getBinaryMessenger(),
+                FacebookConstants.REWARDED_INTERSTITIAL_CHANNEL);
+        rewardedInterstitialAdChannel
+                .setMethodCallHandler(new FacebookRewardedInterstitialAdPlugin(_context,
+                        rewardedInterstitialAdChannel));
+
+        // Banner Ad channel
         flutterPluginBinding.
                 getPlatformViewRegistry().
                 registerViewFactory(FacebookConstants.BANNER_AD_CHANNEL,
@@ -77,6 +86,7 @@ public class FacebookAudienceNetworkPlugin implements FlutterPlugin, MethodCallH
         channel.setMethodCallHandler(null);
         interstitialAdChannel.setMethodCallHandler(null);
         rewardedAdChannel.setMethodCallHandler(null);
+        rewardedInterstitialAdChannel.setMethodCallHandler(null);
     }
 
     @Override
