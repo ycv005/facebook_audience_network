@@ -167,4 +167,5 @@ class FacebookAudienceNetwork {
   static Future<bool?> destroyRewardedInterstitialAd() async {
     return await FacebookRewardedInterstitialAd.destroyRewardedInterstitialAd();
   }
+
 }
