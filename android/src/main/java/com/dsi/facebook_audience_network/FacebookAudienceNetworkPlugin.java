@@ -43,6 +43,13 @@ public class FacebookAudienceNetworkPlugin implements FlutterPlugin, MethodCallH
         rewardedAdChannel
                 .setMethodCallHandler(new FacebookRewardedVideoAdPlugin(_context,
                         rewardedAdChannel));
+        // Rewarded Interstitial Ad channel
+        MethodChannel rewardedInterstitialAdChannel = new MethodChannel(flutterPluginBinding.getBinaryMessenger(),
+                FacebookConstants.REWARDED_INTERSTITIAL_CHANNEL);
+        rewardedInterstitialAdChannel
+                .setMethodCallHandler(new FacebookRewardedInterstitialAdPlugin(_context,
+                        rewardedInterstitialAdChannel));
+        // Banner Ad channel
         flutterPluginBinding.
                 getPlatformViewRegistry().
                 registerViewFactory(FacebookConstants.BANNER_AD_CHANNEL,
