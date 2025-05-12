@@ -22,7 +22,6 @@ final class FacebookConstants {
     static final String SHOW_REWARDED_INTERSTITIAL_METHOD = "showRewardedInterstitialAd";
     static final String DESTROY_REWARDED_INTERSTITIAL_METHOD = "destroyRewardedInterstitialAd";
 
-
     static final String DISPLAYED_METHOD = "displayed";
     static final String DISMISSED_METHOD = "dismissed";
     static final String ERROR_METHOD = "error";
@@ -31,8 +30,8 @@ final class FacebookConstants {
     static final String LOGGING_IMPRESSION_METHOD = "logging_impression";
     static final String REWARDED_VIDEO_COMPLETE_METHOD = "rewarded_complete";
     static final String REWARDED_VIDEO_CLOSED_METHOD = "rewarded_closed";
-    static final String REWARDED_INTERSTITIAL_CLOSED_METHOD = "onRewardedInterstitialAdClosed";
     static final String REWARDED_INTERSTITIAL_COMPLETE_METHOD = "onRewardedInterstitialAdComplete";
+    static final String REWARDED_INTERSTITIAL_CLOSED_METHOD = "onRewardedInterstitialAdClosed";
 
     static final String MEDIA_DOWNLOADED_METHOD = "media_downloaded";
     static final String LOAD_SUCCESS_METHOD = "load_success";
