@@ -4,7 +4,10 @@ import android.content.Context;
 import android.os.Handler;
 import android.util.Log;
 
-import com.facebook.ads.*;
+import com.facebook.ads.Ad;
+import com.facebook.ads.AdError;
+import com.facebook.ads.RewardedInterstitialAd;
+import com.facebook.ads.RewardedInterstitialAdListener;
 
 import java.util.HashMap;
 
@@ -12,7 +15,7 @@ import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
 
 class FacebookRewardedInterstitialAdPlugin implements MethodChannel.MethodCallHandler,
-        RewardedVideoAdListener {
+        RewardedInterstitialAdListener {
 
     private RewardedInterstitialAd rewardedInterstitialAd = null;
 
@@ -28,18 +31,16 @@ class FacebookRewardedInterstitialAdPlugin implements MethodChannel.MethodCallHa
         _delayHandler = new Handler();
     }
 
-
     @Override
     public void onMethodCall(MethodCall methodCall, MethodChannel.Result result) {
-
         switch (methodCall.method) {
-            case FacebookConstants.SHOW_REWARDED_VIDEO_METHOD:
+            case FacebookConstants.SHOW_REWARDED_INTERSTITIAL_METHOD:
                 result.success(showAd((HashMap) methodCall.arguments));
                 break;
-            case FacebookConstants.LOAD_REWARDED_VIDEO_METHOD:
+            case FacebookConstants.LOAD_REWARDED_INTERSTITIAL_METHOD:
                 result.success(loadAd((HashMap) methodCall.arguments));
                 break;
-            case FacebookConstants.DESTROY_REWARDED_VIDEO_METHOD:
+            case FacebookConstants.DESTROY_REWARDED_INTERSTITIAL_METHOD:
                 result.success(destroyAd());
                 break;
             default:
@@ -53,14 +54,16 @@ class FacebookRewardedInterstitialAdPlugin implements MethodChannel.MethodCallHa
         if (rewardedInterstitialAd == null) {
             rewardedInterstitialAd = new RewardedInterstitialAd(context, placementId);
         }
+
         try {
             if (!rewardedInterstitialAd.isAdLoaded()) {
-                RewardedInterstitialAd.RewardedVideoLoadAdConfig loadAdConfig = rewardedInterstitialAd.buildLoadAdConfig().withAdListener(this).build();
+                RewardedInterstitialAd.RewardedInterstitialLoadAdConfig loadAdConfig =
+                        rewardedInterstitialAd.buildLoadAdConfig().withAdListener(this).build();
 
                 rewardedInterstitialAd.loadAd(loadAdConfig);
             }
         } catch (Exception e) {
-            Log.e("RewardedInterstitialAdError", e.getMessage());
+            Log.e("RewardedInterstError", e.getMessage());
             return false;
         }
 
@@ -77,20 +80,22 @@ class FacebookRewardedInterstitialAdPlugin implements MethodChannel.MethodCallHa
             return false;
 
         if (delay <= 0) {
-            RewardedInterstitialAd.RewardedVideoShowAdConfig showAdConfig = rewardedInterstitialAd.buildShowAdConfig().build();
+            RewardedInterstitialAd.RewardedInterstitialShowAdConfig showAdConfig =
+                    rewardedInterstitialAd.buildShowAdConfig().build();
 
             rewardedInterstitialAd.show(showAdConfig);
         } else {
             _delayHandler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-
                     if (rewardedInterstitialAd == null || !rewardedInterstitialAd.isAdLoaded())
                         return;
 
                     if (rewardedInterstitialAd.isAdInvalidated())
                         return;
-                    RewardedInterstitialAd.RewardedVideoShowAdConfig showAdConfig = rewardedInterstitialAd.buildShowAdConfig().build();
+
+                    RewardedInterstitialAd.RewardedInterstitialShowAdConfig showAdConfig =
+                            rewardedInterstitialAd.buildShowAdConfig().build();
 
                     rewardedInterstitialAd.show(showAdConfig);
                 }
@@ -108,6 +113,8 @@ class FacebookRewardedInterstitialAdPlugin implements MethodChannel.MethodCallHa
         }
         return true;
     }
+
+    // --- RewardedInterstitialAdListener methods ---
 
     @Override
     public void onError(Ad ad, AdError adError) {
@@ -148,12 +155,12 @@ class FacebookRewardedInterstitialAdPlugin implements MethodChannel.MethodCallHa
     }
 
     @Override
-    public void onRewardedVideoCompleted() {
-        channel.invokeMethod(FacebookConstants.REWARDED_VIDEO_COMPLETE_METHOD, true);
+    public void onRewardedInterstitialAdClosed() {
+        channel.invokeMethod(FacebookConstants.REWARDED_INTERSTITIAL_CLOSED_METHOD, true);
     }
 
     @Override
-    public void onRewardedVideoClosed() {
-        channel.invokeMethod(FacebookConstants.REWARDED_VIDEO_CLOSED_METHOD, true);
+    public void onRewardedInterstitialAdCompleted() {
+        channel.invokeMethod(FacebookConstants.REWARDED_INTERSTITIAL_COMPLETE_METHOD, true);
     }
 }
