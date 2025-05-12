@@ -4,6 +4,20 @@ const String INTERSTITIAL_AD_CHANNEL = MAIN_CHANNEL + "/interstitialAd";
 const String NATIVE_AD_CHANNEL = MAIN_CHANNEL + "/nativeAd";
 const String NATIVE_BANNER_AD_CHANNEL = MAIN_CHANNEL + "/nativeBannerAd";
 const String REWARDED_VIDEO_CHANNEL = MAIN_CHANNEL + "/rewardedAd";
+const String REWARDED_INTERSTITIAL_CHANNEL =
+    MAIN_CHANNEL + "/rewardedInterstitialAd";
+
+// Method names
+const String LOAD_REWARDED_INTERSTITIAL_METHOD = "loadRewardedInterstitialAd";
+const String SHOW_REWARDED_INTERSTITIAL_METHOD = "showRewardedInterstitialAd";
+const String DESTROY_REWARDED_INTERSTITIAL_METHOD =
+    "destroyRewardedInterstitialAd";
+
+// Events
+const String REWARDED_INTERSTITIAL_COMPLETE_METHOD =
+    "onRewardedInterstitialAdComplete";
+const String REWARDED_INTERSTITIAL_CLOSED_METHOD =
+    "onRewardedInterstitialAdClosed";
 
 const String INIT_METHOD = "init";
 
